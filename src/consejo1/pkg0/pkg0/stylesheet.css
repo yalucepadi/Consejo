@@ -6,6 +6,7 @@
 }
 .btns{
     -fx-background-color: transparent;
+    -fx-border-width: 0px 0px 0px 3px
 }
 .btns:hover{
     -fx-background-color: #202332;
