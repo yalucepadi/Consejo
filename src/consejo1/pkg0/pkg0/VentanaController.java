@@ -1,8 +1,11 @@
 package consejo1.pkg0.pkg0;
 
+import MethodConnection.ConnectionUtil;
 import com.jfoenix.controls.JFXButton;
-
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,6 +62,13 @@ public class VentanaController implements Initializable {
 
     private int posicionEnTabla;
 
+    
+
+    public VentanaController() {
+        // connection = (Connection)ConnectionUtil.conDB();
+
+    }
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
@@ -77,14 +87,22 @@ public class VentanaController implements Initializable {
 
     @FXML
     private void close(ActionEvent event) {
-       if (event.getSource() == closeBtn) {
-           System.exit(0);
-       }
+        if (event.getSource() == closeBtn) {
+            System.exit(0);
+        }
     }
 
     @FXML
-    private void añadir(ActionEvent event) {
-        try {
+    private void añadir(ActionEvent event) throws SQLException{
+    
+        
+        ConnectionUtil connectionUtil= new ConnectionUtil();
+    Connection connection= (Connection)connectionUtil.getConnection();
+        
+    String sql="INSERT INTO RANKING VALUES (1,'Familia',12)"; 
+        Statement statement=(Statement)connection.createStatement();
+        statement.executeUpdate(sql);
+        /*try {
             System.out.println("precionado");
             Ranking ranking = new Ranking();
             Ranking ranking1 = new Ranking("famlia", 12);
@@ -94,7 +112,7 @@ public class VentanaController implements Initializable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
+*/
     }
 
     private void colocarImagenBotones() {
