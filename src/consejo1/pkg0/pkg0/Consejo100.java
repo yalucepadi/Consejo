@@ -1,6 +1,4 @@
-    
 package consejo1.pkg0.pkg0;
-
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -12,29 +10,31 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class Consejo100  extends Application{
-    
-   private double xOffset = 0;
+public class Consejo100 extends Application {
+
+    private double xOffset = 0;
     private double yOffset = 0;
-  
+
     public static void main(String[] args) {
-           launch(args);
+        launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-      
+
+        Parent root = FXMLLoader.load(getClass().getResource("Ventana.fxml"));
+        stage.initStyle(StageStyle.UNDECORATED);
         
-        Parent root=FXMLLoader.load(getClass().getResource("Ventana.fxml"));
-             //set mouse pressed
-         root.setOnMousePressed(new EventHandler<MouseEvent>() {
+        //set mouse pressed
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+
             @Override
             public void handle(MouseEvent event) {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();
             }
         });
-         //set mouse drag
+        //set mouse drag
         root.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -42,16 +42,15 @@ public class Consejo100  extends Application{
                 stage.setY(event.getScreenY() - yOffset);
             }
         });
-       
-        Scene scene= new Scene(root);
-        
+
+        Scene scene = new Scene(root);
+
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
+
         stage.setTitle("Consejo");
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image ("img/landmark.jpg"));
-        stage.setResizable(false);
+        stage.getIcons().add(new Image("img/landmark.jpg"));
         stage.setScene(scene);
         stage.show();
     }
-    
+
 }

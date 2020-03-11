@@ -1,42 +1,35 @@
 
 package modeloRanking;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
 
 
 public class Ranking {
-    private  StringProperty entidades;
+    private  String entidades;
     
-    private     IntegerProperty nroMenciones ;
+    private     Integer nroMenciones ;
     
-    public Ranking(String entidad,Integer nroMencion){
-        this.entidades=new SimpleStringProperty(entidad);
-        this.nroMenciones= new SimpleIntegerProperty(nroMencion);
-        
-    
-    }
+ 
 
     public Ranking() {
     }
-    
 
     public String getEntidades() {
-        return entidades.get();
+        return entidades;
     }
 
     public void setEntidades(String entidades) {
-        this.entidades.set(entidades);
+        this.entidades = entidades;
     }
 
     public Integer getNroMenciones() {
-        return nroMenciones.get();
+        return nroMenciones;
     }
 
     public void setNroMenciones(Integer nroMenciones) {
-        this.nroMenciones.set(nroMenciones);
+        this.nroMenciones = nroMenciones;
     }
+    
+
     
     
     
