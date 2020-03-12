@@ -99,12 +99,13 @@ public class VentanaController implements Initializable {
 
             String sql = "INSERT INTO ranking (id,Entidades, NMenciones) VALUES (?,?,?)";
             preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
-            preparedStatement.setInt(1, 5);
+            preparedStatement.setInt(1, 74);
             preparedStatement.setString(2, "Gente");
             preparedStatement.setInt(3, 120);
             preparedStatement.executeUpdate();
 
             fetRowList();
+               AñadirBtn.setDisable(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,7 +182,7 @@ public class VentanaController implements Initializable {
         colocarImagenBotones();
         fetColumnList();
         fetRowList();
-        pruebaBtn.setDisable(false);
+        pruebaBtn.setDisable(true);
     }
 
 }
