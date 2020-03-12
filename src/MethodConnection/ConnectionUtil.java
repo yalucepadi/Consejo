@@ -14,7 +14,7 @@ public class ConnectionUtil {
 
     public Connection getConnection() {
         String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-        String serverUrl = "jdbc:mysql://localhost:80/?useUnicode=true&amp;amp;amp;useJDBCCompliantTimezoneShift=true&amp;amp;amp;useLegacyDatetimeCode=false&amp;amp;amp;serverTimezone=UTC";
+        String serverUrl = "jdbc:mysql://localhost:3306/?useUnicode=true&amp;amp;amp;useJDBCCompliantTimezoneShift=true&amp;amp;amp;useLegacyDatetimeCode=false&amp;amp;amp;serverTimezone=UTC";
 
         //String jdbcUrl = "jdbc:mysql://localhost/dataConsejo";
         String dbName = "dataConsejo";
