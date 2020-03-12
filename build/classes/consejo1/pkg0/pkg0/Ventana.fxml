@@ -47,10 +47,7 @@
                           </rowConstraints>
                            <children>
                               <TableView fx:id="consejoData" prefHeight="200.0" prefWidth="559.0" GridPane.rowIndex="1">
-                                <columns>
-                                  <TableColumn fx:id="colum1" prefWidth="422.0000305175781" text="Entidades" />
-                                  <TableColumn fx:id="colum2" minWidth="0.0" prefWidth="136.0" text="Nª De menciones" />
-                                </columns>
+                               
                               </TableView>
                            </children>
                         </GridPane>

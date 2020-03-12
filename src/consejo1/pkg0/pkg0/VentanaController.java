@@ -3,7 +3,7 @@ package consejo1.pkg0.pkg0;
 import MethodConnection.ConnectionUtil;
 import com.jfoenix.controls.JFXButton;
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+import com.mysql.jdbc.PreparedStatement;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -15,8 +15,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +26,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import modeloRanking.Ranking;
+import javafx.util.Callback;
 
 public class VentanaController implements Initializable {
 
@@ -50,22 +52,17 @@ public class VentanaController implements Initializable {
     private Pane necesidadesPanel;
 
     @FXML
-    private TableView<Ranking> consejoData;
-
-    @FXML
-    private TableColumn colum1;
-
-    @FXML
-    private TableColumn colum2;
-
-    ObservableList<Ranking> rankings;
-
-    private int posicionEnTabla;
+    private TableView consejoData;
 
     
 
+    private ObservableList<ObservableList> rankingsData;
+    PreparedStatement preparedStatement;
+    java.sql.ResultSet resultSet = null;
+
     public VentanaController() {
-        // connection = (Connection)ConnectionUtil.conDB();
+        ConnectionUtil connectionUtil = new ConnectionUtil();
+        connection = (Connection) connectionUtil.getConnection();
 
     }
 
@@ -91,28 +88,81 @@ public class VentanaController implements Initializable {
             System.exit(0);
         }
     }
+    Connection connection;
 
     @FXML
-    private void añadir(ActionEvent event) throws SQLException{
-    
-        
-        ConnectionUtil connectionUtil= new ConnectionUtil();
-    Connection connection= (Connection)connectionUtil.getConnection();
-        
-    String sql="INSERT INTO RANKING VALUES (1,'Familia',12)"; 
-        Statement statement=(Statement)connection.createStatement();
-        statement.executeUpdate(sql);
-        /*try {
-            System.out.println("precionado");
-            Ranking ranking = new Ranking();
-            Ranking ranking1 = new Ranking("famlia", 12);
-            ranking.setEntidades("Familia");
-            ranking.setNroMenciones(12);
-            rankings.add(ranking1);
+    private void añadir(ActionEvent event) throws SQLException {
+
+        try {
+            ConnectionUtil connectionUtil = new ConnectionUtil();
+            connection = (Connection) connectionUtil.getConnection();
+
+            String sql = "INSERT INTO ranking (id,Entidades, NMenciones) VALUES (?,?,?)";
+            preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
+            preparedStatement.setInt(1, 74);
+            preparedStatement.setString(2, "Gente");
+            preparedStatement.setInt(3, 120);
+            preparedStatement.executeUpdate();
+
+            fetRowList();
+               AñadirBtn.setDisable(true);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    String SQL = "SELECT * from ranking";
+
+    public void fetRowList() {
+        rankingsData = FXCollections.observableArrayList();
+
+        try {
+            resultSet = (java.sql.ResultSet) connection.createStatement().executeQuery(SQL);
+
+            while (resultSet.next()) {
+                ObservableList row = FXCollections.observableArrayList();
+                for (int i = 1; i <=resultSet.getMetaData().getColumnCount(); i++) {
+                    row.add(resultSet.getString(i));
+                }
+                System.out.println("Row[1] added" + row);
+                rankingsData.add(row);
+            }
+            consejoData.setItems(rankingsData);
+
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-*/
+
+    }
+
+    //only fetch columns
+    private void fetColumnList() {
+
+        try {
+            resultSet = connection.createStatement().executeQuery(SQL);
+
+            //SQL FOR SELECTING ALL OF CUSTOMER
+            for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
+                //We are using non property style for making dynamic table
+                final int j = i;
+                TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(i + 1).toUpperCase());
+                col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
+                public  ObservableValue<String>call(CellDataFeatures<ObservableList,String>param){
+                return new SimpleStringProperty(param.getValue().get(j).toString());
+                
+                }
+                
+                });
+                consejoData.getColumns().removeAll(col);
+                consejoData.getColumns().addAll(col);
+                System.out.println("Column [" + i + "] ");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+
+        }
     }
 
     private void colocarImagenBotones() {
@@ -127,24 +177,12 @@ public class VentanaController implements Initializable {
         closeBtn.setGraphic((new ImageView(imagenClose)));
     }
 
-    private void inicializarTabla() {
-        try {
-            colum1.setCellValueFactory(new PropertyValueFactory<Ranking, String>("Entidades"));
-            colum2.setCellValueFactory(new PropertyValueFactory<Ranking, Integer>("Nª De menciones"));
-            rankings = FXCollections.observableArrayList();
-            consejoData.setItems(rankings);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colocarImagenBotones();
-        this.inicializarTabla();
-        pruebaBtn.setDisable(false);
+        fetColumnList();
+        fetRowList();
+        pruebaBtn.setDisable(true);
     }
 
 }
