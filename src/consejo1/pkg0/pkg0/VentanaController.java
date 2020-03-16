@@ -6,7 +6,10 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import java.net.URL;
 import java.sql.SQLException;
+import java.lang.*;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +22,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +31,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+import modeloRanking.Ranking;
 
 public class VentanaController implements Initializable {
 
@@ -52,11 +57,18 @@ public class VentanaController implements Initializable {
     private Pane necesidadesPanel;
 
     @FXML
-    private TableView consejoData;
+    private TableView<Ranking> consejoData;
 
-    
+    @FXML
+    private TableColumn<Ranking, Integer> cId;
 
-    private ObservableList<ObservableList> rankingsData;
+    @FXML
+    private TableColumn<Ranking, String> cEntidades;
+
+    @FXML
+    private TableColumn<Ranking, Integer> cNMenciones;
+
+    private ObservableList<Ranking> listRanking;
     PreparedStatement preparedStatement;
     java.sql.ResultSet resultSet = null;
 
@@ -97,37 +109,44 @@ public class VentanaController implements Initializable {
             ConnectionUtil connectionUtil = new ConnectionUtil();
             connection = (Connection) connectionUtil.getConnection();
 
-            String sql = "INSERT INTO ranking (id,Entidades, NMenciones) VALUES (?,?,?)";
+            String sql = "INSERT INTO ranking (Entidades, NMenciones,id) VALUES (?,?,?)";
             preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
-            preparedStatement.setInt(1, 74);
-            preparedStatement.setString(2, "Gente");
-            preparedStatement.setInt(3, 120);
+            preparedStatement.setString(1, "Gente");
+            preparedStatement.setInt(2, 120);
+            preparedStatement.setInt(3, 74);
             preparedStatement.executeUpdate();
-
-            fetRowList();
-               AñadirBtn.setDisable(true);
+           popullateTable();
+            //fetEntidadesRowList();
+            //fetNMencionesRowList();
+            AñadirBtn.setDisable(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    String SQL = "SELECT * from ranking";
 
-    public void fetRowList() {
+    String SQL = "SELECT Entidades, NMenciones,id FROM ranking ";
+
+    /*public void fetNMencionesRowList() {
         rankingsData = FXCollections.observableArrayList();
 
         try {
-            resultSet = (java.sql.ResultSet) connection.createStatement().executeQuery(SQL);
+            resultSet = (java.sql.ResultSet) connection.createStatement().executeQuery(SQLNM);
 
             while (resultSet.next()) {
                 ObservableList row = FXCollections.observableArrayList();
-                for (int i = 1; i <=resultSet.getMetaData().getColumnCount(); i++) {
+                for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                     row.add(resultSet.getString(i));
                 }
                 System.out.println("Row[1] added" + row);
                 rankingsData.add(row);
             }
+            //Comparator comparator;
+            //FXCollections.sort(rankingsData);
+            //rankingsData.sort(Integer::compareTo);
             consejoData.setItems(rankingsData);
+
+            consejoData.sort();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -136,24 +155,34 @@ public class VentanaController implements Initializable {
     }
 
     //only fetch columns
-    private void fetColumnList() {
+    private void fetNMencionesColumnList() {
 
         try {
-            resultSet = connection.createStatement().executeQuery(SQL);
+            resultSet = connection.createStatement().executeQuery(SQLNM);
 
             //SQL FOR SELECTING ALL OF CUSTOMER
             for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
                 //We are using non property style for making dynamic table
                 final int j = i;
                 TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(i + 1).toUpperCase());
-                col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
-                public  ObservableValue<String>call(CellDataFeatures<ObservableList,String>param){
-                return new SimpleStringProperty(param.getValue().get(j).toString());
+                //col.setSortType(TableColumn.SortType.ASCENDING);
+
+                //col.setSortType(TableColumn.SortType.DESCENDING);
+//
+//                 col.setCellValueFactory((CellDataFeatures<ObservableList,Integer>param) -> {
+//                     
+//                     return new SimpleObjectProperty<Integer>((Integer) param.getValue().get(j));
+//                });
+//                
+//                
                 
-                }
-                
-                });
+                col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList, Integer>, ObservableValue<Integer>>() {
+    @Override public ObservableValue<Integer> call(CellDataFeatures<ObservableList, Integer> c) {
+        return new SimpleObjectProperty<>((Integer) c.getValue().get(j));
+    }
+});
                 consejoData.getColumns().removeAll(col);
+
                 consejoData.getColumns().addAll(col);
                 System.out.println("Column [" + i + "] ");
 
@@ -163,6 +192,95 @@ public class VentanaController implements Initializable {
             System.out.println("Error " + e.getMessage());
 
         }
+    }
+
+    String SQL = "SELECT Entidades FROM ranking ";
+
+    public void fetEntidadesRowList() {
+        rankingsData = FXCollections.observableArrayList();
+
+        try {
+            resultSet = (java.sql.ResultSet) connection.createStatement().executeQuery(SQL);
+
+            while (resultSet.next()) {
+                ObservableList row = FXCollections.observableArrayList();
+                for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+                    row.add(resultSet.getString(i));
+                }
+                System.out.println("Row[1] added" + row);
+                rankingsData.add(row);
+            }
+            //Comparator comparator;
+            //FXCollections.sort(rankingsData);
+            //rankingsData.sort(Integer::compareTo);
+            consejoData.setItems(rankingsData);
+
+            consejoData.sort();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    //only fetch columns
+    private void fetEntidadesColumnList() {
+
+        try {
+
+            //SQL FOR SELECTING ALL OF CUSTOMER
+            for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
+                //We are using non property style for making dynamic table
+                final int j = i;
+                TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(i + 1).toUpperCase());
+                //col.setSortType(TableColumn.SortType.ASCENDING);
+
+                //col.setSortType(TableColumn.SortType.DESCENDING);
+                col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
+                       return new SimpleStringProperty(param.getValue().get(j).toString());
+
+                    }
+
+                
+                consejoData.getColumns().removeAll(col);
+
+                consejoData.getColumns().addAll(col);
+                System.out.println("Column [" + i + "] ");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+
+        }
+    }
+    
+    
+    
+     */
+    public void popullateTable() {
+        listRanking = FXCollections.observableArrayList();
+        ConnectionUtil connectionUtil = new ConnectionUtil();
+        connection = (Connection) connectionUtil.getConnection();
+        try {
+            resultSet = (java.sql.ResultSet) connection.createStatement().executeQuery(SQL);
+            while (resultSet.next()) {
+                Ranking ranking = new Ranking();
+                ranking.setEntidades(resultSet.getString("Entidades"));
+                ranking.setNroMenciones(resultSet.getInt("NMenciones"));
+                ranking.setId(resultSet.getInt("id"));
+                listRanking.add(ranking);
+                cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
+                cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
+                cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+                consejoData.setItems(listRanking);
+
+            }
+        } catch (Exception e) {
+        }
+
     }
 
     private void colocarImagenBotones() {
@@ -180,8 +298,13 @@ public class VentanaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colocarImagenBotones();
-        fetColumnList();
-        fetRowList();
+
+        popullateTable();
+
+        /*fetNMencionesRowList();
+        fetEntidadesColumnList();
+        fetEntidadesRowList();
+       fetNMencionesColumnList();*/
         pruebaBtn.setDisable(true);
     }
 

@@ -31,8 +31,8 @@
             </children>
         </VBox>
         <VBox layoutX="300.0" layoutY="1.0" prefHeight="596.0" prefWidth="684.0">
-         <children>
-            <AnchorPane prefHeight="600.0" prefWidth="684.0">
+            <children>
+                <AnchorPane prefHeight="600.0" prefWidth="684.0">
                <children>
                   <Pane fx:id="necesidadesPanel" minHeight="600.0" minWidth="684.0" prefHeight="600.0" prefWidth="684.0" style="-fx-background-color: #3cc7c0;" />
                   <Pane fx:id="rankingPanel" minHeight="600.0" minWidth="684.0" prefHeight="600.0" prefWidth="684.0" style="-fx-background-color: #8655c2;">
@@ -47,8 +47,11 @@
                           </rowConstraints>
                            <children>
                               <TableView fx:id="consejoData" prefHeight="200.0" prefWidth="559.0" GridPane.rowIndex="1">
-                               
-                              </TableView>
+                                 <columns>
+                                    <TableColumn fx:id="cEntidades" prefWidth="307.0" text="ENTIDADES" />
+                                    <TableColumn fx:id="cNMenciones" prefWidth="217.0" text="NMENCIONES" />
+                                    <TableColumn fx:id="cId" minWidth="0.0" prefWidth="128.0" text="ID" />
+                                 </columns></TableView>
                            </children>
                         </GridPane>
                         <JFXButton fx:id="AñadirBtn" layoutX="342.0" layoutY="191.0" onAction="#añadir" text="Añadir" />

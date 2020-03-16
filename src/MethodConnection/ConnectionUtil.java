@@ -5,8 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class ConnectionUtil {
 
@@ -14,7 +13,7 @@ public class ConnectionUtil {
 
     public Connection getConnection() {
         String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-        String serverUrl = "jdbc:mysql://localhost:3306/?useUnicode=true&amp;amp;amp;useJDBCCompliantTimezoneShift=true&amp;amp;amp;useLegacyDatetimeCode=false&amp;amp;amp;serverTimezone=UTC";
+        String serverUrl = "jdbc:mysql://localhost:80/?useUnicode=true&amp;amp;amp;useJDBCCompliantTimezoneShift=true&amp;amp;amp;useLegacyDatetimeCode=false&amp;amp;amp;serverTimezone=UTC";
 
         //String jdbcUrl = "jdbc:mysql://localhost/dataConsejo";
         String dbName = "dataConsejo";
