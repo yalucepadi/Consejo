@@ -21,8 +21,7 @@ public class Consejo100 extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        Parent root = FXMLLoader.load(getClass().getResource("Ventana.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("ventana.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
         
         //set mouse pressed
