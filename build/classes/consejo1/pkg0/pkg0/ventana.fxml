@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="983.0" styleClass="parent" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="consejo1.pkg0.pkg0.VentanaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1184.0" styleClass="parent" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="consejo1.pkg0.pkg0.VentanaController">
     <children>
         <VBox prefHeight="600.0" prefWidth="300.0" styleClass="sidebar">
             <children>
@@ -34,10 +35,10 @@
             <children>
                 <AnchorPane prefHeight="600.0" prefWidth="684.0">
                <children>
-                  <Pane fx:id="necesidadesPanel" minHeight="600.0" minWidth="684.0" prefHeight="600.0" prefWidth="684.0" style="-fx-background-color: #3cc7c0;" />
-                  <Pane fx:id="rankingPanel" minHeight="600.0" minWidth="684.0" prefHeight="600.0" prefWidth="684.0" style="-fx-background-color: #8655c2;">
+                  <Pane fx:id="necesidadesPanel" minHeight="596.0" minWidth="684.0" prefHeight="596.0" prefWidth="886.0" style="-fx-background-color: #3cc7c0;" />
+                  <Pane fx:id="rankingPanel" layoutY="-4.0" minHeight="596.0" minWidth="684.0" prefHeight="600.0" prefWidth="886.0" style="-fx-background-color: #8655c2;">
                      <children>
-                        <GridPane layoutX="15.0" layoutY="326.0" prefHeight="205.0" prefWidth="653.0">
+                        <GridPane layoutX="23.0" layoutY="326.0" prefHeight="205.0" prefWidth="825.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
@@ -48,15 +49,61 @@
                            <children>
                               <TableView fx:id="consejoData" prefHeight="200.0" prefWidth="559.0" GridPane.rowIndex="1">
                                  <columns>
-                                    <TableColumn fx:id="cEntidades" prefWidth="307.0" text="ENTIDADES" />
-                                    <TableColumn fx:id="cNMenciones" prefWidth="217.0" text="NMENCIONES" />
-                                    <TableColumn fx:id="cId" minWidth="0.0" prefWidth="128.0" text="ID" />
-                                 </columns></TableView>
+                                    <TableColumn fx:id="cEntidades" prefWidth="229.0" text="ENTIDADES" />
+                                    <TableColumn fx:id="cNMenciones" prefWidth="165.0" text="NMENCIONES" />
+                                    <TableColumn fx:id="cId" minWidth="0.0" prefWidth="151.0" text="ID" />
+                                 </columns>
+                              </TableView>
                            </children>
                         </GridPane>
-                        <JFXButton fx:id="AñadirBtn" layoutX="342.0" layoutY="191.0" onAction="#añadir" text="Añadir" />
-                        <JFXButton fx:id="closeBtn" layoutX="634.0" layoutY="-2.0" onAction="#close" />
-                     </children></Pane>
+                        <JFXButton fx:id="AñadirBtn" layoutX="436.0" layoutY="550.0" onAction="#añadir" text="Añadir" />
+                        <JFXButton fx:id="closeBtn" layoutX="817.0" layoutY="1.0" onAction="#close" />
+                        <GridPane layoutX="33.0" layoutY="49.0" prefHeight="166.0" prefWidth="825.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Macroregión" />
+                              <Label text="Fuente" GridPane.columnIndex="1" />
+                              <Label prefHeight="16.0" prefWidth="200.0" text="Grupo etáreo de necesidad" GridPane.columnIndex="2" />
+                              <Label text="Grupo etáreo de participantes" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label text="Perfil de participantes" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Label text="Discapacidad de participantes" GridPane.rowIndex="9" />
+                              <Label text="Paternidad de participante" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                              <Label text="Grupo étnico " GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                              <JFXComboBox fx:id="macroRcombo" onAction="#selecionarMregion" prefHeight="26.0" prefWidth="130.0" GridPane.rowIndex="2" />
+                              <JFXComboBox fx:id="fuente" onAction="#selecionarFuente" prefHeight="26.0" prefWidth="130.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <JFXComboBox fx:id="grupoEtarioDn" onAction="#selecionarGrupoEterarioDn" prefHeight="26.0" prefWidth="130.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <JFXComboBox fx:id="departamentos" onAction="#selecionarDepartamentos" prefHeight="26.0" prefWidth="130.0" GridPane.rowIndex="6" />
+                              <JFXComboBox fx:id="grupoEtario" onAction="#selecionarGrupoEtario" prefHeight="26.0" prefWidth="130.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <JFXComboBox fx:id="perfilParticipantes" onAction="#selecionarperfilParticipantes" prefHeight="26.0" prefWidth="130.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <JFXComboBox fx:id="discapacidad" onAction="#selecionarDiscapacidad" prefHeight="26.0" prefWidth="130.0" GridPane.rowIndex="12" />
+                              <JFXComboBox fx:id="paternidad" onAction="#selecionarPaternidad" prefHeight="26.0" prefWidth="130.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                              <JFXComboBox fx:id="gEtnico" onAction="#selecionarGetcnico" prefHeight="26.0" prefWidth="130.0" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+                              <Label text="Departamento" GridPane.rowIndex="4" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
          </children></VBox>
