@@ -305,7 +305,7 @@ macroRcomboSQL  = filtro(macroRcombo);
                 ranking.setEntidades(resultSet.getString("Entidades"));
                 ranking.setNroMenciones(resultSet.getInt("NMenciones"));
                 ranking.setId(resultSet.getInt("id"));
-                listRanking.add(ranking);
+                listFiltro.add(ranking);
                 cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
                 cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
                 cId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -329,82 +329,74 @@ macroRcomboSQL  = filtro(macroRcombo);
     //1
     @FXML
     public void selecionarMregion() {
-        String macroRpf = filtro(macroRcombo);
 
-        System.out.println(macroRpf);
-        System.out.println(selecionarFuente());
-        System.out.println(filtro(grupoEtario));
+    
         filtrarAndPopulateTabla();
     }
 
     //2
     @FXML
-    public String selecionarFuente() {
-        String fuente = filtro(this.fuente);
+    public void selecionarFuente() {
 
-        return fuente;
+               filtrarAndPopulateTabla();
+
 
     }
 
     //3
     @FXML
-    public String selecionarGrupoEtario() {
-        String grupoEtario = filtro(this.grupoEtario);
+    public void selecionarGrupoEtario() {
+        filtrarAndPopulateTabla();
 
-        return grupoEtario;
+        
     }
 
     //4
     @FXML
-    public String selecionarDepartamentos() {
-        String departamento = filtro(this.departamentos);
+    public void selecionarDepartamentos() {
+        filtrarAndPopulateTabla();
 
-        return departamento;
 
     }
 
     //5
     @FXML
-    public String selecionarDiscapacidad() {
-        String discapacidad = filtro(this.discapacidad);
+    public void selecionarDiscapacidad() {
 
-        return discapacidad;
+        filtrarAndPopulateTabla();
 
     }
 
     //6
     @FXML
-    public String selecionarGetcnico() {
-        String gEtnico = filtro(this.gEtnico);
+    public void selecionarGetcnico() {
+        filtrarAndPopulateTabla();
 
-        return gEtnico;
 
     }
 
     //7
     @FXML
-    public String selecionarGrupoEterarioDn() {
-        String grupoEtarioDn = filtro(this.grupoEtarioDn);
+    public void selecionarGrupoEterarioDn() {
 
-        return grupoEtarioDn;
+                 filtrarAndPopulateTabla();
+
 
     }
 
     //8
     @FXML
-    public String selecionarPaternidad() {
-        String paternidad = filtro(this.paternidad);
+    public void selecionarPaternidad() {
+        filtrarAndPopulateTabla();
 
-        return paternidad;
 
     }
 
     //9
     @FXML
-    public String selecionarperfilParticipantes() {
-        String perfilParticipantes = filtro(this.perfilParticipantes);
+    public void selecionarperfilParticipantes() {
 
-        return perfilParticipantes;
+        filtrarAndPopulateTabla();
 
     }
 
