@@ -2,6 +2,8 @@ package consejo1.pkg0.pkg0;
 
 import MethodConnection.ConnectionUtil;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.mysql.fabric.xmlrpc.base.Data;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import java.net.URL;
@@ -13,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,6 +27,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
+import javafx.scene.control.TableCell;
 import modeloRanking.Ranking;
 
 public class VentanaController implements Initializable {
@@ -60,12 +65,134 @@ public class VentanaController implements Initializable {
 
     @FXML
     private TableColumn<Ranking, Integer> cNMenciones;
+    
+   @FXML
+    private TableColumn<Ranking,Void> cButtonInfo;
 
+    @FXML
+    JFXComboBox<String> macroRcombo;
+
+    ObservableList<String> optionsMc
+            = FXCollections.observableArrayList(
+                    "centro 1",
+                    "centro 2",
+                    "centro 3",
+                    "sur 1",
+                    "sur 2",
+                    "norte 1",
+                    "norte 2"
+            );
+
+    @FXML
+    JFXComboBox<String> grupoEtarioDn;
+    ObservableList<String> optionsGeDn
+            = FXCollections.observableArrayList(
+                    "adolecencia",
+                    "niñez",
+                    "primera infacia",
+                    "juventud",
+                    "adultez",
+                    "adultez mayor"
+            );
+
+    @FXML
+    JFXComboBox<String> fuente;
+    ObservableList<String> optionsF
+            = FXCollections.observableArrayList(
+                    "encuesta virtual",
+                    "jornadas por la educacion"
+            );
+    @FXML
+    JFXComboBox<String> grupoEtario;
+    ObservableList<String> optionsGe
+            = FXCollections.observableArrayList(
+                    "adolecencia",
+                    "niñez",
+                    "primera infacia",
+                    "juventud",
+                    "adultez",
+                    "adultez mayor"
+            );
+    @FXML
+    JFXComboBox<String> perfilParticipantes;
+    ObservableList<String> optionsPp
+            = FXCollections.observableArrayList(
+                    "Estudiante",
+                    "Docente",
+                    "Ni estudiante, ni docente",
+                    "Docente y estudiante"
+            );
+    @FXML
+    JFXComboBox<String> departamentos;
+    ObservableList<String> optionsD
+            = FXCollections.observableArrayList(
+                    "Amazonas",
+                    "Áncash",
+                    "Apurímac",
+                    "Arequipa",
+                    "Ayacucho",
+                    "Cajamarca",
+                    "Cusco",
+                    "Huancavelica",
+                    "Huánuco",
+                    "Ica",
+                    "Junín",
+                    "La Libertad",
+                    "Lambayeque",
+                    "Lima",
+                    "Loreto",
+                    "Madre de Dios",
+                    "Moquegua",
+                    "Pasco",
+                    "Piura",
+                    "Puno",
+                    "San Martín",
+                    "Tacna",
+                    "Tumbes",
+                    "Ucayali"
+            );
+    @FXML
+    JFXComboBox<String> discapacidad;
+    ObservableList<String> optionsDisca
+            = FXCollections.observableArrayList(
+                    "Si",
+                    "No"
+            );
+
+    @FXML
+    JFXComboBox<String> paternidad;
+    ObservableList<String> optionsPat
+            = FXCollections.observableArrayList(
+                    "Si",
+                    "No"
+            );
+
+    @FXML
+    JFXComboBox<String> gEtnico;
+    ObservableList<String> optionsGeT
+            = FXCollections.observableArrayList(
+                    "Castellano",
+                    "Lengua Originaria",
+                    "Idioma extranjero"
+            );
     private ObservableList<Ranking> listRanking;
+    private ObservableList<Ranking> listFiltro;
+
     PreparedStatement preparedStatement;
     java.sql.ResultSet resultSet = null;
+    
+    String macroRcomboSQL = null;
+    String grupoEtarioSQL = null;
+    String perfilParticipantesSQL = null;
+    String departamentosSQL = null;
+    String grupoEtarioDnSQL = null;
+    String fuenteSQL = null;
+    String discapacidadSQL = null;
+    String paternidadSQL = null;
+    String gEtnicoSQL = null;
 
     public VentanaController() {
+
         ConnectionUtil connectionUtil = new ConnectionUtil();
         connection = (Connection) connectionUtil.getConnection();
 
@@ -108,7 +235,7 @@ public class VentanaController implements Initializable {
             preparedStatement.setInt(2, 120);
             preparedStatement.setInt(3, 74);
             preparedStatement.executeUpdate();
-           popullateTable();
+            popullateTable();
             //fetEntidadesRowList();
             //fetNMencionesRowList();
             AñadirBtn.setDisable(true);
@@ -117,11 +244,8 @@ public class VentanaController implements Initializable {
         }
 
     }
-
     String SQL = "SELECT Entidades, NMenciones,id FROM ranking ";
 
-    
-                
     public void popullateTable() {
         listRanking = FXCollections.observableArrayList();
         ConnectionUtil connectionUtil = new ConnectionUtil();
@@ -147,6 +271,143 @@ public class VentanaController implements Initializable {
 
     }
 
+    
+
+    public void filtrarAndPopulateTabla() {
+macroRcomboSQL  = filtro(macroRcombo);
+    grupoEtarioSQL  = filtro(grupoEtario);
+    perfilParticipantesSQL  = filtro(perfilParticipantes);
+    departamentosSQL  = filtro(departamentos);
+    grupoEtarioDnSQL  = filtro(grupoEtarioDn);
+    fuenteSQL  = filtro(fuente);
+    discapacidadSQL  = filtro(discapacidad);
+    paternidadSQL  = filtro(paternidad);
+    gEtnicoSQL  = filtro(gEtnico);
+    
+    
+    String SQLF = "SELECT r.Entidades, count(*) as NMenciones, r.id from ranking  r inner join filtros f WHERE"
+            +" f.departamento= " +"'"+ departamentosSQL+"'"
+            +" or f.fuente=" +"'"+ fuenteSQL+"'" 
+            +" or f.grupoEtario="+ "'"+ grupoEtarioSQL+"'"
+            +" or f.macroregion=" +"'" +macroRcomboSQL +"'" 
+            +" or f.grupo_etareo_de_participante="+"'" + grupoEtarioDnSQL +"'"
+            +" or f.perfil_de_participante="+"'"+perfilParticipantesSQL+"'"
+            +" or f.discapacidad="+"'"+discapacidadSQL+"'"
+            +" or f.paternidad="+"'"+paternidadSQL+"'"
+            +" or f.grupo_étnico="+"'"+gEtnicoSQL+"'";
+ listFiltro = FXCollections.observableArrayList();
+        ConnectionUtil connectionUtil = new ConnectionUtil();
+        connection = (Connection) connectionUtil.getConnection();
+        try {
+            resultSet = (java.sql.ResultSet) connection.createStatement().executeQuery(SQLF);
+            while (resultSet.next()) {
+                Ranking ranking = new Ranking();
+                ranking.setEntidades(resultSet.getString("Entidades"));
+                ranking.setNroMenciones(resultSet.getInt("NMenciones"));
+                ranking.setId(resultSet.getInt("id"));
+                listRanking.add(ranking);
+                cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
+                cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
+                cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+                consejoData.setItems(listFiltro);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public String filtro(JFXComboBox<String> comboBoxString) {
+
+        String resultado = comboBoxString.getSelectionModel().getSelectedItem();
+
+        return resultado;
+    }
+
+    //1
+    @FXML
+    public void selecionarMregion() {
+        String macroRpf = filtro(macroRcombo);
+
+        System.out.println(macroRpf);
+        System.out.println(selecionarFuente());
+        System.out.println(filtro(grupoEtario));
+        filtrarAndPopulateTabla();
+    }
+
+    //2
+    @FXML
+    public String selecionarFuente() {
+        String fuente = filtro(this.fuente);
+
+        return fuente;
+
+    }
+
+    //3
+    @FXML
+    public String selecionarGrupoEtario() {
+        String grupoEtario = filtro(this.grupoEtario);
+
+        return grupoEtario;
+    }
+
+    //4
+    @FXML
+    public String selecionarDepartamentos() {
+        String departamento = filtro(this.departamentos);
+
+        return departamento;
+
+    }
+
+    //5
+    @FXML
+    public String selecionarDiscapacidad() {
+        String discapacidad = filtro(this.discapacidad);
+
+        return discapacidad;
+
+    }
+
+    //6
+    @FXML
+    public String selecionarGetcnico() {
+        String gEtnico = filtro(this.gEtnico);
+
+        return gEtnico;
+
+    }
+
+    //7
+    @FXML
+    public String selecionarGrupoEterarioDn() {
+        String grupoEtarioDn = filtro(this.grupoEtarioDn);
+
+        return grupoEtarioDn;
+
+    }
+
+    //8
+    @FXML
+    public String selecionarPaternidad() {
+        String paternidad = filtro(this.paternidad);
+
+        return paternidad;
+
+    }
+
+    //9
+    @FXML
+    public String selecionarperfilParticipantes() {
+        String perfilParticipantes = filtro(this.perfilParticipantes);
+
+        return perfilParticipantes;
+
+    }
+
     private void colocarImagenBotones() {
         URL linkguardar = getClass().getResource("/img/comment-alt.png");
         URL linkRanking = getClass().getResource("/img/chart-bar.png");
@@ -159,11 +420,77 @@ public class VentanaController implements Initializable {
         closeBtn.setGraphic((new ImageView(imagenClose)));
     }
 
+    public void iteracionRapidaDcomboBoxes(ObservableList<String> observableList, JFXComboBox<String> comboBoxString) {
+        for (int i = 0; i < observableList.size(); i++) {
+            comboBoxString.getItems().add(observableList.get(i));
+        }
+
+    }
+     public void botonesInfo(){
+          TableColumn<Ranking, Void> colBtn = new TableColumn("INFO");
+          cButtonInfo=colBtn;
+
+         Callback<TableColumn<Ranking, Void>, TableCell<Ranking, Void>> cellFactory = new Callback<TableColumn<Ranking, Void>, TableCell<Ranking, Void>>() {
+            @Override
+            public TableCell<Ranking, Void> call(final TableColumn<Ranking, Void> param) {
+                final TableCell<Ranking, Void> cell = new TableCell<Ranking, Void>() {
+
+                    private final Button btn = new Button("Info");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            //Data data = getTableView().getItems().get(getIndex());
+                            //System.out.println("selectedData: " + data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        cButtonInfo.setCellFactory(cellFactory);
+
+        consejoData.getColumns().add(colBtn);
+     
+     }
+     
+
+    public void cargaDcomboBoxes() {
+        iteracionRapidaDcomboBoxes(optionsMc, macroRcombo);
+        iteracionRapidaDcomboBoxes(optionsGe, grupoEtario);
+        iteracionRapidaDcomboBoxes(optionsPp, perfilParticipantes);
+        iteracionRapidaDcomboBoxes(optionsD, departamentos);
+        iteracionRapidaDcomboBoxes(optionsGeDn, grupoEtarioDn);
+        iteracionRapidaDcomboBoxes(optionsF, fuente);
+        iteracionRapidaDcomboBoxes(optionsDisca, discapacidad);
+        iteracionRapidaDcomboBoxes(optionsPat, paternidad);
+        iteracionRapidaDcomboBoxes(optionsGeT, gEtnico);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colocarImagenBotones();
+        cargaDcomboBoxes();
+        botonesInfo();
 
+        // selecionarMregion();
+        //System.out.println(filtro(fuente));
+        //macroRcombo.setVisible(true);
+        //macroRcombo.setValue("norte");
+        //macroRcombo.setVisibleRowCount(5);  
         popullateTable();
+        //filtrarAndPopulateTabla();
 
         /*fetNMencionesRowList();
         fetEntidadesColumnList();
