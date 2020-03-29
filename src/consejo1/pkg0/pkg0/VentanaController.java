@@ -207,9 +207,9 @@ public class VentanaController implements Initializable {
 
         }
         if (event.getSource() == rankingBtn) {
-
+ 
             rankingPanel.toFront();
-            rankingPanel.setBackground(new Background(new BackgroundFill(Color.rgb(132, 85, 164), CornerRadii.EMPTY, Insets.EMPTY)));
+            rankingPanel.setBackground(new Background(new BackgroundFill(Color.rgb(246,246,246), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
     }
@@ -285,16 +285,23 @@ macroRcomboSQL  = filtro(macroRcombo);
     gEtnicoSQL  = filtro(gEtnico);
     
     
-    String SQLF = "SELECT r.Entidades, count(*) as NMenciones, r.id from ranking  r inner join filtros f WHERE"
+    String SQLF = ("SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE"
             +" f.departamento= " +"'"+ departamentosSQL+"'"
             +" or f.fuente=" +"'"+ fuenteSQL+"'" 
             +" or f.grupoEtario="+ "'"+ grupoEtarioSQL+"'"
-            +" or f.macroregion=" +"'" +macroRcomboSQL +"'" 
-            +" or f.grupo_etareo_de_participante="+"'" + grupoEtarioDnSQL +"'"
+            +" or f.macroregion=" +"'" +macroRcomboSQL+"'" 
+            +" or f.grupo_etareo_de_participante="+"'" + grupoEtarioDnSQL+"'"
             +" or f.perfil_de_participante="+"'"+perfilParticipantesSQL+"'"
             +" or f.discapacidad="+"'"+discapacidadSQL+"'"
             +" or f.paternidad="+"'"+paternidadSQL+"'"
-            +" or f.grupo_étnico="+"'"+gEtnicoSQL+"'";
+            +" or f.grupo_étnico="+"'"+gEtnicoSQL+"'" +" GROUP by r.Entidades").toLowerCase();
+    
+    String  sqlp ="SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE f.departamento= 'Cajamarca' or f.fuente='encuesta virtual' or f.grupoEtario='adolecencia' or f.macroregion='norte 1' or f.grupo_etareo_de_participante='niñez' or f.perfil_de_participante='Estudiante' or f.discapacidad='No' or f.paternidad='Si' or f.grupo_étnico='Castellano'";
+   
+    
+    
+    
+        System.out.println(SQLF);
  listFiltro = FXCollections.observableArrayList();
         ConnectionUtil connectionUtil = new ConnectionUtil();
         connection = (Connection) connectionUtil.getConnection();
@@ -474,7 +481,7 @@ macroRcomboSQL  = filtro(macroRcombo);
     public void initialize(URL url, ResourceBundle rb) {
         colocarImagenBotones();
         cargaDcomboBoxes();
-        botonesInfo();
+        //botonesInfo();
 
         // selecionarMregion();
         //System.out.println(filtro(fuente));
