@@ -57,8 +57,8 @@ public class VentanaController implements Initializable {
     @FXML
     private TableView<Ranking> consejoData;
 
-    @FXML
-    private TableColumn<Ranking, Integer> cId;
+   // @FXML
+   // private TableColumn<Ranking, Integer> cId;
 
     @FXML
     private TableColumn<Ranking, String> cEntidades;
@@ -244,7 +244,7 @@ public class VentanaController implements Initializable {
         }
 
     }
-    String SQL = "SELECT Entidades , COUNT(Entidades) AS NMenciones, id FROM `ranking` GROUP by Entidades";
+    String SQL = "SELECT Entidades , COUNT(Entidades) AS NMenciones FROM `ranking` GROUP by Entidades";
 
     public void popullateTable() {
         listRanking = FXCollections.observableArrayList();
@@ -256,11 +256,11 @@ public class VentanaController implements Initializable {
                 Ranking ranking = new Ranking();
                 ranking.setEntidades(resultSet.getString("Entidades"));
                 ranking.setNroMenciones(resultSet.getInt("NMenciones"));
-                ranking.setId(resultSet.getInt("id"));
+                //ranking.setId(resultSet.getInt("id"));
                 listRanking.add(ranking);
                 cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
                 cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
-                cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+              //  cId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
                 consejoData.setItems(listRanking);
 
@@ -311,11 +311,11 @@ macroRcomboSQL  = filtro(macroRcombo);
                 Ranking ranking = new Ranking();
                 ranking.setEntidades(resultSet.getString("Entidades"));
                 ranking.setNroMenciones(resultSet.getInt("NMenciones"));
-                ranking.setId(resultSet.getInt("id"));
+               // ranking.setId(resultSet.getInt("id"));
                 listFiltro.add(ranking);
                 cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
                 cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
-                cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+               // cId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
                 consejoData.setItems(listFiltro);
 
