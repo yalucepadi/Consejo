@@ -244,7 +244,7 @@ public class VentanaController implements Initializable {
         }
 
     }
-    String SQL = "SELECT Entidades, NMenciones,id FROM ranking ";
+    String SQL = "SELECT Entidades , COUNT(Entidades) AS NMenciones, id FROM `ranking` GROUP by Entidades";
 
     public void popullateTable() {
         listRanking = FXCollections.observableArrayList();
@@ -481,7 +481,7 @@ macroRcomboSQL  = filtro(macroRcombo);
     public void initialize(URL url, ResourceBundle rb) {
         colocarImagenBotones();
         cargaDcomboBoxes();
-        //botonesInfo();
+        botonesInfo();
 
         // selecionarMregion();
         //System.out.println(filtro(fuente));
