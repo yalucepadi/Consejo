@@ -12,21 +12,31 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1184.0" styleClass="parent" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="consejo1.pkg0.pkg0.VentanaController">
     <children>
         <VBox prefHeight="600.0" prefWidth="300.0" styleClass="sidebar">
             <children>
-                <Label prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: #00A2D3;" text="        Admin Panel" textFill="#fcfbff" />
+                <Label prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: dc143c;" text="        Admin Panel" textFill="#fcfbff">
+               <font>
+                  <Font name="Dyuthi Regular" size="22.0" />
+               </font></Label>
                 <HBox prefHeight="28.0" prefWidth="300.0">
                <children>
                   <JFXButton fx:id="pruebaBtn" onAction="#handleButtonAction" />
-                  <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="87.0" text="Necesidades" textFill="#f5f5f5" />
+                  <Label contentDisplay="CENTER" prefHeight="29.0" prefWidth="110.0" text="Necesidades" textFill="#f5f5f5">
+                     <font>
+                        <Font name="Dyuthi Regular" size="18.0" />
+                     </font></Label>
                </children></HBox>
             <HBox prefHeight="28.0" prefWidth="300.0">
                <children>
                   <JFXButton fx:id="rankingBtn" onAction="#handleButtonAction" />
-                  <Label prefHeight="35.0" prefWidth="87.0" text="Ranking" textFill="#f5f5f5" />
+                  <Label prefHeight="35.0" prefWidth="87.0" text="Ranking" textFill="#f5f5f5">
+                     <font>
+                        <Font name="Dyuthi Regular" size="18.0" />
+                     </font></Label>
                </children>
             </HBox>
             </children>
@@ -36,7 +46,7 @@
                 <AnchorPane prefHeight="600.0" prefWidth="684.0">
                <children>
                   <Pane fx:id="necesidadesPanel" minHeight="596.0" minWidth="684.0" prefHeight="596.0" prefWidth="886.0" style="-fx-background-color: #3cc7c0;" />
-                  <Pane fx:id="rankingPanel" layoutY="-4.0" minHeight="596.0" minWidth="684.0" prefHeight="600.0" prefWidth="886.0" style="-fx-background-color: #8655c2;">
+                  <Pane fx:id="rankingPanel" layoutY="-4.0" minHeight="596.0" minWidth="684.0" prefHeight="600.0" prefWidth="886.0" style="-fx-background-color: ffffff;">
                      <children>
                         <GridPane layoutX="23.0" layoutY="326.0" prefHeight="205.0" prefWidth="825.0">
                           <columnConstraints>

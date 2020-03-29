@@ -47,7 +47,7 @@ public class Consejo100 extends Application {
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
 
         stage.setTitle("Consejo");
-        stage.getIcons().add(new Image("img/landmark.jpg"));
+        stage.getIcons().add(new Image("img/cne.png"));
         stage.setScene(scene);
         stage.show();
     }
