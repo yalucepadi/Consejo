@@ -229,13 +229,13 @@ public class VentanaController implements Initializable {
             ConnectionUtil connectionUtil = new ConnectionUtil();
             connection = (Connection) connectionUtil.getConnection();
 
-            String sql = "INSERT INTO ranking (Entidades, NMenciones,id) VALUES (?,?,?)";
+            String sql = "INSERT INTO ranking (Entidades,id) VALUES (?,?)";
             preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
             preparedStatement.setString(1, "Gente");
-            preparedStatement.setInt(2, 120);
-            preparedStatement.setInt(3, 74);
+            preparedStatement.setInt(3, 546);
             preparedStatement.executeUpdate();
             popullateTable();
+            
             //fetEntidadesRowList();
             //fetNMencionesRowList();
             AñadirBtn.setDisable(true);
