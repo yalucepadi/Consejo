@@ -29,12 +29,29 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.scene.control.TableCell;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import modeloRanking.Ranking;
 
 public class VentanaController implements Initializable {
 
     @FXML
-    private Label myMessage;
+    private Label panelHeader;
+
+    @FXML
+    private Label EtiquetaN;
+
+    @FXML
+    private Label EtiquetaR;
+
+    @FXML
+    private HBox contenedorN;
+
+    @FXML
+    private HBox contenedorR;
+
+    @FXML
+    private VBox vBoxPanelLateral;
 
     @FXML
     private JFXButton pruebaBtn;
@@ -57,17 +74,16 @@ public class VentanaController implements Initializable {
     @FXML
     private TableView<Ranking> consejoData;
 
-   // @FXML
-   // private TableColumn<Ranking, Integer> cId;
-
+    // @FXML
+    // private TableColumn<Ranking, Integer> cId;
     @FXML
     private TableColumn<Ranking, String> cEntidades;
 
     @FXML
     private TableColumn<Ranking, Integer> cNMenciones;
-    
-   @FXML
-    private TableColumn<Ranking,Void> cButtonInfo;
+
+    @FXML
+    private TableColumn<Ranking, Void> cButtonInfo;
 
     @FXML
     JFXComboBox<String> macroRcombo;
@@ -180,7 +196,7 @@ public class VentanaController implements Initializable {
 
     PreparedStatement preparedStatement;
     java.sql.ResultSet resultSet = null;
-    
+
     String macroRcomboSQL = null;
     String grupoEtarioSQL = null;
     String perfilParticipantesSQL = null;
@@ -207,9 +223,9 @@ public class VentanaController implements Initializable {
 
         }
         if (event.getSource() == rankingBtn) {
- 
+
             rankingPanel.toFront();
-            rankingPanel.setBackground(new Background(new BackgroundFill(Color.rgb(246,246,246), CornerRadii.EMPTY, Insets.EMPTY)));
+            rankingPanel.setBackground(new Background(new BackgroundFill(Color.rgb(246, 246, 246), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
     }
@@ -235,7 +251,7 @@ public class VentanaController implements Initializable {
             preparedStatement.setInt(3, 546);
             preparedStatement.executeUpdate();
             popullateTable();
-            
+
             //fetEntidadesRowList();
             //fetNMencionesRowList();
             AñadirBtn.setDisable(true);
@@ -260,7 +276,7 @@ public class VentanaController implements Initializable {
                 listRanking.add(ranking);
                 cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
                 cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
-              //  cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                //  cId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
                 consejoData.setItems(listRanking);
 
@@ -271,38 +287,32 @@ public class VentanaController implements Initializable {
 
     }
 
-    
-
     public void filtrarAndPopulateTabla() {
-macroRcomboSQL  = filtro(macroRcombo);
-    grupoEtarioSQL  = filtro(grupoEtario);
-    perfilParticipantesSQL  = filtro(perfilParticipantes);
-    departamentosSQL  = filtro(departamentos);
-    grupoEtarioDnSQL  = filtro(grupoEtarioDn);
-    fuenteSQL  = filtro(fuente);
-    discapacidadSQL  = filtro(discapacidad);
-    paternidadSQL  = filtro(paternidad);
-    gEtnicoSQL  = filtro(gEtnico);
-    
-    
-    String SQLF = ("SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE"
-            +" f.departamento= " +"'"+ departamentosSQL+"'"
-            +" or f.fuente=" +"'"+ fuenteSQL+"'" 
-            +" or f.grupoEtario="+ "'"+ grupoEtarioSQL+"'"
-            +" or f.macroregion=" +"'" +macroRcomboSQL+"'" 
-            +" or f.grupo_etareo_de_participante="+"'" + grupoEtarioDnSQL+"'"
-            +" or f.perfil_de_participante="+"'"+perfilParticipantesSQL+"'"
-            +" or f.discapacidad="+"'"+discapacidadSQL+"'"
-            +" or f.paternidad="+"'"+paternidadSQL+"'"
-            +" or f.grupo_étnico="+"'"+gEtnicoSQL+"'" +" GROUP by r.Entidades").toLowerCase();
-    
-    String  sqlp ="SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE f.departamento= 'Cajamarca' or f.fuente='encuesta virtual' or f.grupoEtario='adolecencia' or f.macroregion='norte 1' or f.grupo_etareo_de_participante='niñez' or f.perfil_de_participante='Estudiante' or f.discapacidad='No' or f.paternidad='Si' or f.grupo_étnico='Castellano'";
-   
-    
-    
-    
+        macroRcomboSQL = filtro(macroRcombo);
+        grupoEtarioSQL = filtro(grupoEtario);
+        perfilParticipantesSQL = filtro(perfilParticipantes);
+        departamentosSQL = filtro(departamentos);
+        grupoEtarioDnSQL = filtro(grupoEtarioDn);
+        fuenteSQL = filtro(fuente);
+        discapacidadSQL = filtro(discapacidad);
+        paternidadSQL = filtro(paternidad);
+        gEtnicoSQL = filtro(gEtnico);
+
+        String SQLF = ("SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE"
+                + " f.departamento= " + "'" + departamentosSQL + "'"
+                + " or f.fuente=" + "'" + fuenteSQL + "'"
+                + " or f.grupoEtario=" + "'" + grupoEtarioSQL + "'"
+                + " or f.macroregion=" + "'" + macroRcomboSQL + "'"
+                + " or f.grupo_etareo_de_participante=" + "'" + grupoEtarioDnSQL + "'"
+                + " or f.perfil_de_participante=" + "'" + perfilParticipantesSQL + "'"
+                + " or f.discapacidad=" + "'" + discapacidadSQL + "'"
+                + " or f.paternidad=" + "'" + paternidadSQL + "'"
+                + " or f.grupo_étnico=" + "'" + gEtnicoSQL + "'" + " GROUP by r.Entidades").toLowerCase();
+
+        String sqlp = "SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE f.departamento= 'Cajamarca' or f.fuente='encuesta virtual' or f.grupoEtario='adolecencia' or f.macroregion='norte 1' or f.grupo_etareo_de_participante='niñez' or f.perfil_de_participante='Estudiante' or f.discapacidad='No' or f.paternidad='Si' or f.grupo_étnico='Castellano'";
+
         System.out.println(SQLF);
- listFiltro = FXCollections.observableArrayList();
+        listFiltro = FXCollections.observableArrayList();
         ConnectionUtil connectionUtil = new ConnectionUtil();
         connection = (Connection) connectionUtil.getConnection();
         try {
@@ -311,11 +321,11 @@ macroRcomboSQL  = filtro(macroRcombo);
                 Ranking ranking = new Ranking();
                 ranking.setEntidades(resultSet.getString("Entidades"));
                 ranking.setNroMenciones(resultSet.getInt("NMenciones"));
-               // ranking.setId(resultSet.getInt("id"));
+                // ranking.setId(resultSet.getInt("id"));
                 listFiltro.add(ranking);
                 cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
                 cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
-               // cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                // cId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
                 consejoData.setItems(listFiltro);
 
@@ -337,7 +347,6 @@ macroRcomboSQL  = filtro(macroRcombo);
     @FXML
     public void selecionarMregion() {
 
-    
         filtrarAndPopulateTabla();
     }
 
@@ -345,8 +354,7 @@ macroRcomboSQL  = filtro(macroRcombo);
     @FXML
     public void selecionarFuente() {
 
-               filtrarAndPopulateTabla();
-
+        filtrarAndPopulateTabla();
 
     }
 
@@ -355,14 +363,12 @@ macroRcomboSQL  = filtro(macroRcombo);
     public void selecionarGrupoEtario() {
         filtrarAndPopulateTabla();
 
-        
     }
 
     //4
     @FXML
     public void selecionarDepartamentos() {
         filtrarAndPopulateTabla();
-
 
     }
 
@@ -379,15 +385,13 @@ macroRcomboSQL  = filtro(macroRcombo);
     public void selecionarGetcnico() {
         filtrarAndPopulateTabla();
 
-
     }
 
     //7
     @FXML
     public void selecionarGrupoEterarioDn() {
 
-                 filtrarAndPopulateTabla();
-
+        filtrarAndPopulateTabla();
 
     }
 
@@ -395,7 +399,6 @@ macroRcomboSQL  = filtro(macroRcombo);
     @FXML
     public void selecionarPaternidad() {
         filtrarAndPopulateTabla();
-
 
     }
 
@@ -425,11 +428,12 @@ macroRcomboSQL  = filtro(macroRcombo);
         }
 
     }
-     public void botonesInfo(){
-          TableColumn<Ranking, Void> colBtn = new TableColumn("INFO");
-          cButtonInfo=colBtn;
 
-         Callback<TableColumn<Ranking, Void>, TableCell<Ranking, Void>> cellFactory = new Callback<TableColumn<Ranking, Void>, TableCell<Ranking, Void>>() {
+    public void botonesInfo() {
+        TableColumn<Ranking, Void> colBtn = new TableColumn("INFO");
+        cButtonInfo = colBtn;
+
+        Callback<TableColumn<Ranking, Void>, TableCell<Ranking, Void>> cellFactory = new Callback<TableColumn<Ranking, Void>, TableCell<Ranking, Void>>() {
             @Override
             public TableCell<Ranking, Void> call(final TableColumn<Ranking, Void> param) {
                 final TableCell<Ranking, Void> cell = new TableCell<Ranking, Void>() {
@@ -460,9 +464,8 @@ macroRcomboSQL  = filtro(macroRcombo);
         cButtonInfo.setCellFactory(cellFactory);
 
         consejoData.getColumns().add(colBtn);
-     
-     }
-     
+
+    }
 
     public void cargaDcomboBoxes() {
         iteracionRapidaDcomboBoxes(optionsMc, macroRcombo);
@@ -479,6 +482,10 @@ macroRcomboSQL  = filtro(macroRcombo);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        EtiquetaN.prefWidthProperty().bind(contenedorN.widthProperty());
+        EtiquetaR.prefWidthProperty().bind(contenedorR.widthProperty());
+        contenedorN.prefWidthProperty().bind(vBoxPanelLateral.widthProperty());
+        contenedorR.prefWidthProperty().bind(vBoxPanelLateral.widthProperty());
         colocarImagenBotones();
         cargaDcomboBoxes();
         botonesInfo();

@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+       
+
 public class Consejo100 extends Application {
 
     private double xOffset = 0;
@@ -18,12 +20,15 @@ public class Consejo100 extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+     
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("ventana.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
+           
+      
         
+       
         //set mouse pressed
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -50,6 +55,8 @@ public class Consejo100 extends Application {
         stage.getIcons().add(new Image("img/cne.png"));
         stage.setScene(scene);
         stage.show();
+        
+        
     }
 
 }
