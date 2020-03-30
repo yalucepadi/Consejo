@@ -57,8 +57,8 @@ public class VentanaController implements Initializable {
     @FXML
     private TableView<Ranking> consejoData;
 
-    @FXML
-    private TableColumn<Ranking, Integer> cId;
+   // @FXML
+   // private TableColumn<Ranking, Integer> cId;
 
     @FXML
     private TableColumn<Ranking, String> cEntidades;
@@ -229,13 +229,13 @@ public class VentanaController implements Initializable {
             ConnectionUtil connectionUtil = new ConnectionUtil();
             connection = (Connection) connectionUtil.getConnection();
 
-            String sql = "INSERT INTO ranking (Entidades, NMenciones,id) VALUES (?,?,?)";
+            String sql = "INSERT INTO ranking (Entidades,id) VALUES (?,?)";
             preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
             preparedStatement.setString(1, "Gente");
-            preparedStatement.setInt(2, 120);
-            preparedStatement.setInt(3, 74);
+            preparedStatement.setInt(3, 546);
             preparedStatement.executeUpdate();
             popullateTable();
+            
             //fetEntidadesRowList();
             //fetNMencionesRowList();
             AñadirBtn.setDisable(true);
@@ -244,7 +244,7 @@ public class VentanaController implements Initializable {
         }
 
     }
-    String SQL = "SELECT Entidades, NMenciones,id FROM ranking ";
+    String SQL = "SELECT Entidades , COUNT(Entidades) AS NMenciones FROM `ranking` GROUP by Entidades";
 
     public void popullateTable() {
         listRanking = FXCollections.observableArrayList();
@@ -256,11 +256,11 @@ public class VentanaController implements Initializable {
                 Ranking ranking = new Ranking();
                 ranking.setEntidades(resultSet.getString("Entidades"));
                 ranking.setNroMenciones(resultSet.getInt("NMenciones"));
-                ranking.setId(resultSet.getInt("id"));
+                //ranking.setId(resultSet.getInt("id"));
                 listRanking.add(ranking);
                 cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
                 cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
-                cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+              //  cId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
                 consejoData.setItems(listRanking);
 
@@ -311,11 +311,11 @@ macroRcomboSQL  = filtro(macroRcombo);
                 Ranking ranking = new Ranking();
                 ranking.setEntidades(resultSet.getString("Entidades"));
                 ranking.setNroMenciones(resultSet.getInt("NMenciones"));
-                ranking.setId(resultSet.getInt("id"));
+               // ranking.setId(resultSet.getInt("id"));
                 listFiltro.add(ranking);
                 cEntidades.setCellValueFactory(new PropertyValueFactory<>("entidades"));
                 cNMenciones.setCellValueFactory(new PropertyValueFactory<>("nroMenciones"));
-                cId.setCellValueFactory(new PropertyValueFactory<>("id"));
+               // cId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
                 consejoData.setItems(listFiltro);
 
@@ -481,7 +481,7 @@ macroRcomboSQL  = filtro(macroRcombo);
     public void initialize(URL url, ResourceBundle rb) {
         colocarImagenBotones();
         cargaDcomboBoxes();
-        //botonesInfo();
+        botonesInfo();
 
         // selecionarMregion();
         //System.out.println(filtro(fuente));
