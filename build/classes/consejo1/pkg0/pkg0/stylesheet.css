@@ -46,3 +46,16 @@
     -fx-text-fill: #fffcfc;
     -fx-alignment: CENTER;
 }
+@font-face {
+    font-family: 'dyuthi';
+    src: url('Dyuthi.ttf');
+}
+    
+    .text-panel{
+    -fx-font-family: "dyuthi";
+    
+}
+.text-panelDerecho{
+    
+    -fx-font-size: 24;
+}
