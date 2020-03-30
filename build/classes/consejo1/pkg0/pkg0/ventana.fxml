@@ -19,7 +19,7 @@
     <children>
         <VBox prefHeight="600.0" prefWidth="300.0" styleClass="sidebar">
             <children>
-                <Label prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: dc143c;" text="        Admin Panel" textFill="#fcfbff">
+                <Label prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: dc143c;" text="Admin Panel" textFill="#fcfbff">
                <font>
                   <Font name="Dyuthi Regular" size="34.0" />
                </font></Label>
