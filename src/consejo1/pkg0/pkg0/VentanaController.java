@@ -6,15 +6,21 @@ import com.jfoenix.controls.JFXComboBox;
 import com.mysql.fabric.xmlrpc.base.Data;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -29,12 +35,16 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.scene.control.TableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import modeloRanking.Ranking;
 
 public class VentanaController implements Initializable {
 
+    private double xOffset = 0;
+    private double yOffset = 0;
     @FXML
     private Label panelHeader;
 
@@ -230,11 +240,43 @@ public class VentanaController implements Initializable {
 
     }
 
+    public void changeScreenButtonPushed(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        //set mouse pressed
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        //set mouse drag
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        });
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
     @FXML
-    private void close(ActionEvent event) {
-        if (event.getSource() == closeBtn) {
-            System.exit(0);
+    private void loutOutMethod(ActionEvent event) {
+        try {
+             changeScreenButtonPushed(event);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+       
     }
     Connection connection;
 
@@ -413,13 +455,13 @@ public class VentanaController implements Initializable {
     private void colocarImagenBotones() {
         URL linkguardar = getClass().getResource("/img/comment-alt.png");
         URL linkRanking = getClass().getResource("/img/chart-bar.png");
-        URL linkClose = getClass().getResource("/img/window-close.png");
+        URL linkLogout = getClass().getResource("/img/sign-out-alt.png");
         Image imagenNuevo = new Image(linkguardar.toString(), 20, 20, false, true);
         Image imagenRanking = new Image(linkRanking.toString(), 20, 20, false, true);
-        Image imagenClose = new Image(linkClose.toString(), 20, 20, false, true);
+        Image imagenLoutOut = new Image(linkLogout.toString(), 20, 20, false, true);
         pruebaBtn.setGraphic((new ImageView(imagenNuevo)));
         rankingBtn.setGraphic((new ImageView(imagenRanking)));
-        closeBtn.setGraphic((new ImageView(imagenClose)));
+        closeBtn.setGraphic((new ImageView(imagenLoutOut)));
     }
 
     public void iteracionRapidaDcomboBoxes(ObservableList<String> observableList, JFXComboBox<String> comboBoxString) {
