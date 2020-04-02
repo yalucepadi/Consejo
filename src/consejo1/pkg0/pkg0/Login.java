@@ -1,5 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package consejo1.pkg0.pkg0;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -10,20 +18,26 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-       
-
-public class Consejo100 extends Application {
-
-    private double xOffset = 0;
+/**
+ *
+ * @author yair
+ */
+public class Login  extends Application{
+        
+         private double xOffset = 0;
     private double yOffset = 0;
-
-    /*public static void main(String[] args) {
+ 
+ public static void main(String[] args) {
+   
+     
+             
+     
         launch(args);
     }
-     */
+     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("ventana.fxml"));
+       Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
            
       
@@ -55,8 +69,6 @@ public class Consejo100 extends Application {
         stage.getIcons().add(new Image("img/cne.png"));
         stage.setScene(scene);
         stage.show();
-        
-        
     }
-
+    
 }
