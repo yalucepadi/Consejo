@@ -22,27 +22,21 @@ import javafx.stage.StageStyle;
  *
  * @author yair
  */
-public class Login  extends Application{
-        
-         private double xOffset = 0;
+public class Login extends Application {
+
+    private double xOffset = 0;
     private double yOffset = 0;
- 
- public static void main(String[] args) {
-   
-     
-             
-     
+
+    public static void main(String[] args) {
+
         launch(args);
     }
-     
+
     @Override
     public void start(Stage stage) throws Exception {
-       Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
-           
-      
-        
-       
+
         //set mouse pressed
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -70,5 +64,5 @@ public class Login  extends Application{
         stage.setScene(scene);
         stage.show();
     }
-    
+
 }
