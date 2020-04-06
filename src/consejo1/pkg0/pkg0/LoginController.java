@@ -42,6 +42,9 @@ public class LoginController implements Initializable {
     private double xOffset = 0;
     private double yOffset = 0;
     @FXML
+    private ImageView logo;
+    
+    @FXML
     private JFXButton btnIngresar;
     @FXML
     private JFXButton closeLBtn;
@@ -57,6 +60,7 @@ public class LoginController implements Initializable {
 
     java.sql.ResultSet resultSetC = null;
     PreparedStatement preparedStatementC = null;
+
     public LoginController() {
 
         ConnectionUtil connectionUtil = new ConnectionUtil();
@@ -109,7 +113,8 @@ public class LoginController implements Initializable {
         closeLBtn.setGraphic((new ImageView(imagenClose)));
     }
     String SQLu = "SELECT usuario FROM usuario WHERE usuario=(?)";
- String SQLc = "SELECT contraseña FROM usuario WHERE contraseña=(?)";
+    String SQLc = "SELECT contraseña FROM usuario WHERE contraseña=(?)";
+
     public static void infoBox(String infoMessage, String titleBar, String headerMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titleBar);
@@ -125,38 +130,32 @@ public class LoginController implements Initializable {
 
         try {
 
-            //resultSet = (java.sql.ResultSet) connection.createStatement().executeQuery(SQLl);
-            String usuario =userTxt.getText();
-            
-            String contraseña=passwordTxt.getText();
-            String mD5=getMd5(contraseña);
+            String usuario = userTxt.getText();
+
+            String contraseña = passwordTxt.getText();
+            String mD5 = getMd5(contraseña);
             System.out.println(usuario);
             System.out.println(mD5);
-            preparedStatementC=(PreparedStatement)connection.prepareStatement(SQLc);
+            preparedStatementC = (PreparedStatement) connection.prepareStatement(SQLc);
             preparedStatement = (PreparedStatement) connection.prepareStatement(SQLu);
-            preparedStatement.setString(1,usuario);
+            preparedStatement.setString(1, usuario);
             preparedStatementC.setString(1, mD5);
-            resultSet=preparedStatement.executeQuery();
-            resultSetC=preparedStatementC.executeQuery();
+            resultSet = preparedStatement.executeQuery();
+            resultSetC = preparedStatementC.executeQuery();
             if (!resultSet.next()) {
-                infoBox("Ingrese usuario correcto", "error",null);
-            
-            
+                infoBox("Ingrese usuario correcto", "error", null);
+
+            } else {
+                if (!resultSetC.next()) {
+                    infoBox("Ingrese contraseña correcta", "error", null);
+                } else {
+
+                    infoBox("Ingreso correcto", "Satisfactoriamente", null);
+                    changeScreenButtonPushed(event);
+                }
+
             }
-            else{
-               if (!resultSetC.next()) {
-                infoBox("Ingrese contraseña correcta", "error",null);
-            }
-               else{
-                
-                infoBox("Ingreso correcto", "Satisfactoriamente", null);
-                changeScreenButtonPushed(event);}
-            
-            }
-            
-            
-                         
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

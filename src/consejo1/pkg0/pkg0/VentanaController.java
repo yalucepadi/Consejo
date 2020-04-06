@@ -46,25 +46,21 @@ public class VentanaController implements Initializable {
     private double xOffset = 0;
     private double yOffset = 0;
     @FXML
+    private ImageView pen;
+     @FXML
+    private ImageView todosEdu;
+       @FXML
+    private ImageView abuela;
+    @FXML
     private Label panelHeader;
-
-    @FXML
-    private Label EtiquetaN;
-
-    @FXML
-    private Label EtiquetaR;
-
-    @FXML
-    private HBox contenedorN;
+    
+    
 
     @FXML
     private HBox contenedorR;
 
     @FXML
     private VBox vBoxPanelLateral;
-
-    @FXML
-    private JFXButton pruebaBtn;
 
     @FXML
     private JFXButton rankingBtn;
@@ -227,15 +223,10 @@ public class VentanaController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
-        if (event.getSource() == pruebaBtn) {
-            necesidadesPanel.toFront();
-            necesidadesPanel.setBackground(new Background(new BackgroundFill(Color.rgb(52, 122, 176), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        }
         if (event.getSource() == rankingBtn) {
 
             rankingPanel.toFront();
-            rankingPanel.setBackground(new Background(new BackgroundFill(Color.rgb(246, 246, 246), CornerRadii.EMPTY, Insets.EMPTY)));
+            rankingPanel.setBackground(new Background(new BackgroundFill(Color.rgb(93, 153, 198), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
     }
@@ -272,11 +263,11 @@ public class VentanaController implements Initializable {
     @FXML
     private void loutOutMethod(ActionEvent event) {
         try {
-             changeScreenButtonPushed(event);
+            changeScreenButtonPushed(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
+
     }
     Connection connection;
 
@@ -453,13 +444,20 @@ public class VentanaController implements Initializable {
     }
 
     private void colocarImagenBotones() {
-        URL linkguardar = getClass().getResource("/img/comment-alt.png");
+
         URL linkRanking = getClass().getResource("/img/chart-bar.png");
         URL linkLogout = getClass().getResource("/img/sign-out-alt.png");
-        Image imagenNuevo = new Image(linkguardar.toString(), 20, 20, false, true);
-        Image imagenRanking = new Image(linkRanking.toString(), 20, 20, false, true);
+        URL linkPen= getClass().getResource("/img/logo-pen2036.png");
+        URL linkTodosEdu= getClass().getResource("/img/letras.png");
+        URL linkAbuela=getClass().getResource("/img/madreCsuHijo.png");
+        Image imagePen = new Image(linkPen.toString(),200,96,false,true);
+        Image imageTodosEdu = new Image(linkTodosEdu.toString(),200,96,false,true);
+        Image imageAbuela= new Image(linkAbuela.toString(),181,341,false,true);
+        Image imagenRanking = new Image(linkRanking.toString(), 24, 24, false, true);
         Image imagenLoutOut = new Image(linkLogout.toString(), 20, 20, false, true);
-        pruebaBtn.setGraphic((new ImageView(imagenNuevo)));
+        pen.setImage(imagePen);
+        todosEdu.setImage(imageTodosEdu);
+        abuela.setImage(imageAbuela);
         rankingBtn.setGraphic((new ImageView(imagenRanking)));
         closeBtn.setGraphic((new ImageView(imagenLoutOut)));
     }
@@ -524,27 +522,15 @@ public class VentanaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        EtiquetaN.prefWidthProperty().bind(contenedorN.widthProperty());
-        EtiquetaR.prefWidthProperty().bind(contenedorR.widthProperty());
-        contenedorN.prefWidthProperty().bind(vBoxPanelLateral.widthProperty());
-        contenedorR.prefWidthProperty().bind(vBoxPanelLateral.widthProperty());
+        //EtiquetaN.prefWidthProperty().bind(contenedorN.widthProperty());
+        //EtiquetaR.prefWidthProperty().bind(contenedorR.widthProperty());
+        //contenedorN.prefWidthProperty().bind(vBoxPanelLateral.widthProperty());
+        //contenedorR.prefWidthProperty().bind(vBoxPanelLateral.widthProperty());
         colocarImagenBotones();
         cargaDcomboBoxes();
         botonesInfo();
-
-        // selecionarMregion();
-        //System.out.println(filtro(fuente));
-        //macroRcombo.setVisible(true);
-        //macroRcombo.setValue("norte");
-        //macroRcombo.setVisibleRowCount(5);  
         popullateTable();
-        //filtrarAndPopulateTabla();
 
-        /*fetNMencionesRowList();
-        fetEntidadesColumnList();
-        fetEntidadesRowList();
-       fetNMencionesColumnList();*/
-        pruebaBtn.setDisable(true);
     }
 
 }
