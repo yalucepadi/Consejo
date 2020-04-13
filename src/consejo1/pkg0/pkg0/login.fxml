@@ -3,29 +3,19 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="700.0" style="-fx-background-color: #ffffff;" styleClass="parent" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="consejo1.pkg0.pkg0.LoginController">
    <children>
-      <AnchorPane layoutX="-5.0" layoutY="-1.0" prefHeight="364.0" prefWidth="706.0" style="-fx-background-color: #5d99c6;">
+      <AnchorPane layoutX="-5.0" layoutY="-1.0" prefHeight="508.0" prefWidth="706.0" style="-fx-background-color: #5d99c6;">
          <children>
+            <ImageView fx:id="fondoLogin" fitHeight="508.0" fitWidth="706.0" pickOnBounds="true" preserveRatio="true" />
             <JFXTextField fx:id="userTxt" focusColor="#33cc61" layoutX="242.0" layoutY="126.0" prefHeight="26.0" prefWidth="249.0" promptText="usuario" style="-fx-background-color: #ffffff;" />
             <JFXPasswordField fx:id="passwordTxt" focusColor="#33cc61" layoutX="242.0" layoutY="182.0" prefHeight="26.0" prefWidth="249.0" promptText="contraseña" style="-fx-background-color: #ffffff;" unFocusColor="#030202" />
             <JFXButton fx:id="btnIngresar" layoutX="242.0" layoutY="240.0" onAction="#logueo" prefHeight="26.0" prefWidth="249.0" style="-fx-background-color: #a6adad;" text="Ingresar" />
          </children>
       </AnchorPane>
-      <ImageView fx:id="logo" fitHeight="136.0" fitWidth="150.0" layoutX="29.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../img/cne.png" />
-         </image>
-      </ImageView>
       <JFXButton fx:id="closeLBtn" layoutX="638.0" layoutY="1.0" onAction="#close" />
-      <ImageView fx:id="logo1" fitHeight="98.0" fitWidth="150.0" layoutX="536.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../img/logo-pen2036.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

@@ -45,6 +45,9 @@ public class LoginController implements Initializable {
     private ImageView logo;
     
     @FXML
+    private ImageView fondoLogin;
+    
+    @FXML
     private JFXButton btnIngresar;
     @FXML
     private JFXButton closeLBtn;
@@ -107,8 +110,12 @@ public class LoginController implements Initializable {
     private void colocarImagenBotones() {
 
         URL linkClose = getClass().getResource("/img/window-close.png");
+        URL linkFondoLogin = getClass().getResource("/img/login.png");
 
         Image imagenClose = new Image(linkClose.toString(), 20, 20, false, true);
+        Image imagenFondoLogin= new Image(linkFondoLogin.toString(),706,508,false,true);
+                fondoLogin.setImage(imagenFondoLogin);
+
 
         closeLBtn.setGraphic((new ImageView(imagenClose)));
     }
