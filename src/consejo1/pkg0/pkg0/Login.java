@@ -33,7 +33,7 @@ public class Login extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {   
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
 

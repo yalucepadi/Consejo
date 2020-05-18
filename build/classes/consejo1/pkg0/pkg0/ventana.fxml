@@ -47,7 +47,7 @@
                   <Pane fx:id="rankingPanel" layoutY="-1.0" minHeight="596.0" minWidth="684.0" prefHeight="600.0" prefWidth="886.0" style="-fx-background-color: #5d99c6;">
                      <children>
                         <Label layoutX="12.0" layoutY="39.0" prefHeight="205.0" prefWidth="818.0" styleClass="pane-fondo" />
-                        <JFXButton fx:id="AñadirBtn" layoutX="389.0" layoutY="256.0" onAction="#añadir" text="Añadir" />
+                        <JFXButton fx:id="SepararBtn" layoutX="389.0" layoutY="256.0" onAction="#separar" text="Separar" />
                         <JFXButton fx:id="closeBtn" layoutX="817.0" layoutY="1.0" onAction="#loutOutMethod" />
                         <Label layoutX="19.0" layoutY="49.0" prefHeight="84.0" prefWidth="496.0" styleClass="pane" />
                         <Label layoutX="88.0" layoutY="83.0" text="Fuente" />

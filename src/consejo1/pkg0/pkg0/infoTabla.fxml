@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1184.0" styleClass="parent" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="consejo1.pkg0.pkg0.InfoTablasController">
+   <children>
+      <VBox prefHeight="596.0" prefWidth="1184.0">
+         <children>
+            <AnchorPane prefHeight="611.0" prefWidth="1184.0">
+               <children>
+                  <Pane prefHeight="596.0" prefWidth="1184.0" style="-fx-background-color: #5d99c6;">
+                     <children>
+                        <TableView layoutX="19.0" layoutY="98.0" prefHeight="492.0" prefWidth="1147.0">
+                          <columns>
+                            <TableColumn prefWidth="95.0" text="ENTIDADES" />
+                            <TableColumn prefWidth="135.0" text="NMENCIONES" />
+                          </columns>
+                        </TableView>
+                        <JFXButton fx:id="closeViBtn" layoutX="1108.0" layoutY="14.0" onAction="#loutOutMethod" text="Button" />
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

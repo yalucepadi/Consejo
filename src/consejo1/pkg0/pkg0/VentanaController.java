@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,16 +43,23 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modeloRanking.Ranking;
 
-public class VentanaController implements Initializable {
-
+public class VentanaController extends TablaSeparadaController implements Initializable {
+         
     private double xOffset = 0;
     private double yOffset = 0;
+    
+    private double xOffsetIft = 0;
+    private double yOffsetIft = 0;
+    
     @FXML
     private ImageView pen;
-     @FXML
+    
+    @FXML
     private ImageView todosEdu;
-       @FXML
+    
+    @FXML
     private ImageView abuela;
+    
     @FXML
     private Label panelHeader;
     
@@ -66,11 +75,15 @@ public class VentanaController implements Initializable {
     private JFXButton rankingBtn;
 
     @FXML
-    private JFXButton AñadirBtn;
+    private JFXButton SepararBtn;
 
     @FXML
     private JFXButton closeBtn;
 
+    
+
+    
+    
     @FXML
     private Pane rankingPanel;
 
@@ -109,12 +122,12 @@ public class VentanaController implements Initializable {
     JFXComboBox<String> grupoEtarioDn;
     ObservableList<String> optionsGeDn
             = FXCollections.observableArrayList(
-                    "adolecencia",
-                    "niñez",
-                    "primera infacia",
-                    "juventud",
-                    "adultez",
-                    "adultez mayor"
+                        "adolecencia",
+                        "niñez",
+                        "primera infacia",
+                        "juventud",
+                        "adultez",
+                        "adultez mayor"
             );
 
     @FXML
@@ -199,6 +212,8 @@ public class VentanaController implements Initializable {
             );
     private ObservableList<Ranking> listRanking;
     private ObservableList<Ranking> listFiltro;
+    
+    private ObservableList<Ranking> listInfoFiltro;
 
     PreparedStatement preparedStatement;
     java.sql.ResultSet resultSet = null;
@@ -213,14 +228,82 @@ public class VentanaController implements Initializable {
     String paternidadSQL = null;
     String gEtnicoSQL = null;
 
-    public VentanaController() {
+        public void changeScreenButtonPushedVi(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("infoTabla.fxml"));
 
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        //set mouse pressed
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                xOffsetIft = event.getSceneX();
+                yOffsetIft = event.getSceneY();
+            }
+        });
+        //set mouse drag
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffsetIft);
+                stage.setY(event.getScreenY() - yOffsetIft);
+            }
+        });
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    
+    
+     public void changeScreenButtonPushedVs(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("tablaSeparada.fxml"));
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        //set mouse pressed
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                xOffsetIft = event.getSceneX();
+                yOffsetIft = event.getSceneY();
+            }
+        });
+        //set mouse drag
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffsetIft);
+                stage.setY(event.getScreenY() - yOffsetIft);
+            }
+        });
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    
+    
+    
+    
+    
+    
+    
+   public VentanaController() {
+  
         ConnectionUtil connectionUtil = new ConnectionUtil();
         connection = (Connection) connectionUtil.getConnection();
 
     }
 
-    @FXML
+  
+     @FXML
     private void handleButtonAction(ActionEvent event) {
 
         if (event.getSource() == rankingBtn) {
@@ -272,24 +355,12 @@ public class VentanaController implements Initializable {
     Connection connection;
 
     @FXML
-    private void añadir(ActionEvent event) throws SQLException {
-
+    private void separar(ActionEvent event){
+             
         try {
-            ConnectionUtil connectionUtil = new ConnectionUtil();
-            connection = (Connection) connectionUtil.getConnection();
-
-            String sql = "INSERT INTO ranking (Entidades,id) VALUES (?,?)";
-            preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
-            preparedStatement.setString(1, "Gente");
-            preparedStatement.setInt(3, 546);
-            preparedStatement.executeUpdate();
-            popullateTable();
-
-            //fetEntidadesRowList();
-            //fetNMencionesRowList();
-            AñadirBtn.setDisable(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+            changeScreenButtonPushedVs(event);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
 
     }
@@ -319,8 +390,19 @@ public class VentanaController implements Initializable {
         }
 
     }
+ private String SQLF;
 
-    public void filtrarAndPopulateTabla() {
+    public String getSQLF() {
+        return SQLF;
+    }
+
+    public void setSQLF(String SQLF) {
+        this.SQLF = SQLF;
+    }
+    
+    
+    
+    public void filtrarAndPopulateTabla(){
         macroRcomboSQL = filtro(macroRcombo);
         grupoEtarioSQL = filtro(grupoEtario);
         perfilParticipantesSQL = filtro(perfilParticipantes);
@@ -330,8 +412,8 @@ public class VentanaController implements Initializable {
         discapacidadSQL = filtro(discapacidad);
         paternidadSQL = filtro(paternidad);
         gEtnicoSQL = filtro(gEtnico);
-
-        String SQLF = ("SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE"
+        
+         SQLF = ("SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE"
                 + " f.departamento= " + "'" + departamentosSQL + "'"
                 + " or f.fuente=" + "'" + fuenteSQL + "'"
                 + " or f.grupoEtario=" + "'" + grupoEtarioSQL + "'"
@@ -341,9 +423,10 @@ public class VentanaController implements Initializable {
                 + " or f.discapacidad=" + "'" + discapacidadSQL + "'"
                 + " or f.paternidad=" + "'" + paternidadSQL + "'"
                 + " or f.grupo_étnico=" + "'" + gEtnicoSQL + "'" + " GROUP by r.Entidades").toLowerCase();
-
+       
+          
         String sqlp = "SELECT r.Entidades, count(f.departamento & f.fuente & f.grupoEtario & f.macroregion & f.grupo_etareo_de_participante & f.perfil_de_participante & f.discapacidad  & f.paternidad & f.grupo_étnico) as NMenciones, r.id from ranking  r inner join filtros f WHERE f.departamento= 'Cajamarca' or f.fuente='encuesta virtual' or f.grupoEtario='adolecencia' or f.macroregion='norte 1' or f.grupo_etareo_de_participante='niñez' or f.perfil_de_participante='Estudiante' or f.discapacidad='No' or f.paternidad='Si' or f.grupo_étnico='Castellano'";
-
+             setSQLF(SQLF);
         System.out.println(SQLF);
         listFiltro = FXCollections.observableArrayList();
         ConnectionUtil connectionUtil = new ConnectionUtil();
@@ -482,8 +565,11 @@ public class VentanaController implements Initializable {
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            //Data data = getTableView().getItems().get(getIndex());
-                            //System.out.println("selectedData: " + data);
+                        /*    try {
+                               // changeScreenButtonPushedVi(event);
+                            } catch (IOException ex) {
+                                Logger.getLogger(VentanaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }*/
                         });
                     }
 
@@ -530,7 +616,10 @@ public class VentanaController implements Initializable {
         cargaDcomboBoxes();
         botonesInfo();
         popullateTable();
+        //filtrarAndPopulateTabla();
 
     }
+    
+    
 
 }
